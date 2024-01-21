@@ -1,0 +1,204 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Book API",
+      "version": "1.0.0",
+      "description": "API for managing books in a book store."
+    },
+    "servers": [
+      {
+        "url": "http://localhost:5000"
+      }
+    ],
+    "components": {
+      "securitySchemes": {
+        "JWT": {
+          "type": "apiKey",
+          "in": "header",
+          "name": "Authorization"
+        }
+      }
+    },
+    "paths": {
+      "/books": {
+        "get": {
+          "summary": "Get all books",
+          "responses": {
+            "200": {
+              "description": "List of books",
+              "content": {
+                "application/json": {
+                  "example": [
+                    {
+                      "title": "Sample Book 1",
+                      "author": "Author 1",
+                      "pageNumber": 100,
+                      "ISBN": "123456-123456-12345"
+                    },
+                    {
+                      "title": "Sample Book 2",
+                      "author": "Author 2",
+                      "pageNumber": 200,
+                      "ISBN": "234567-234567-23456"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Add a new book (You need to login first)",
+          "securitySchemes": {
+            "JWT": []
+          },
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "title": "New Book",
+                  "author": "New Author",
+                  "pageNumber": 100,
+                  "ISBN": "123456-123456-12345"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Book created successfully"
+            }
+          }
+        }
+      },
+      "/books/{id}": {
+        "get": {
+          "summary": "Get a book by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID of the book to get",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Book found",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "title": "Sample Book 1",
+                    "author": "Author 1",
+                    "pageNumber": 100,
+                    "ISBN": "123456-123456-12345"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Book not found"
+            }
+          }
+
+        },
+        "put": {
+          "summary": "Update an existing book by ID (You need to login first)",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+            "content": {
+              "application/json": {
+                "example": {
+                  "title": "Updated Book",
+                  "author": "Updated Author",
+                  "pageNumber": 100,
+                  "ISBN": "123456-123456-12345"
+                }
+              }
+            },
+          "responses": {
+            "200": {
+              "description": "Book updated successfully"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete an existing book by ID (You need to login first)",
+          "securitySchemes": {
+            "JWT": []
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Book deleted successfully"
+            }
+          }
+        }
+      },
+      "/register": {
+        "post": {
+          "summary": "Register a new user",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "email": "email1@email.com",
+                  "username": "user1",
+                  "password": "password1"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "User created successfully"
+            }
+          }
+        }
+      },
+      "/login": {
+        "post": {
+          "summary": "Login an existing user",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "email": "email1@email.com",
+                  "password": "password1"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "User logged in successfully"
+            },
+            "401": {
+              "description": "Invalid credentials"
+            }
+          }
+        }
+      }
+    }
+  }
+  
